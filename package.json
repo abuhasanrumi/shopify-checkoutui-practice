@@ -1,0 +1,37 @@
+{
+  "name": "navidium-widgets",
+  "version": "1.0.0",
+  "main": "web/index.js",
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "shopify": "shopify",
+    "build": "shopify app build",
+    "dev": "shopify app dev",
+    "info": "shopify app info",
+    "generate": "shopify app generate",
+    "deploy": "shopify app deploy"
+  },
+  "dependencies": {
+    "@shopify/app": "3.46.4",
+    "@shopify/cli": "3.46.4",
+    "@shopify/shopify-api": "^7.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "react": "^17.0.2",
+    "react-icons": "^4.10.0"
+  },
+  "author": "abid",
+  "private": true,
+  "workspaces": [
+    "web",
+    "web/frontend",
+    "extensions/*"
+  ],
+  "devDependencies": {
+    "nodemon": "^2.0.22",
+    "tunnelmole": "^2.1.11"
+  }
+}
