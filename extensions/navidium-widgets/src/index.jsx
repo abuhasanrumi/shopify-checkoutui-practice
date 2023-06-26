@@ -582,7 +582,10 @@ function Review({ data }) {
       <Grid columns={['10%', 'fill', '30%']} spacing='base' blockAlignment='center'>
         <Image
           source={widgetData?.user?.image || reviewAvatar}
-          borderRadius='fullyRounded' />
+          borderRadius='fullyRounded'
+          aspectRatio={1}
+          fit='cover'
+        />
         <Text>{widgetData?.user?.name}</Text>
         <InlineStack inlineAlignment='end' spacing='extraTight'>
           {Array.from({ length: fullStar }).map(() => <Image key={crypto.randomUUID()} source={fullStarSVG} />)}
