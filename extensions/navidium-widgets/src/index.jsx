@@ -14,6 +14,11 @@ render('Checkout::ShippingMethods::RenderBefore', () => <App />);
 render('Checkout::ShippingMethods::RenderBefore', () => <App />);
 render('Checkout::ShippingMethods::RenderAfter', () => <App />);
 
+const reviewAvatar = 'data:image/svg+xml;base64,PHN2ZyBzdHJva2U9ImN1cnJlbnRDb2xvciIgZmlsbD0iY3VycmVudENvbG9yIiBzdHJva2Utd2lkdGg9IjAiIHZpZXdCb3g9IjAgMCA0NDggNTEyIiBoZWlnaHQ9IjQ1cHgiCiAgd2lkdGg9IjQ1cHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGgKICAgIGQ9Ik0yMjQgMjU2QTEyOCAxMjggMCAxIDAgMjI0IDBhMTI4IDEyOCAwIDEgMCAwIDI1NnptLTQ1LjcgNDhDNzkuOCAzMDQgMCAzODMuOCAwIDQ4Mi4zQzAgNDk4LjcgMTMuMyA1MTIgMjkuNyA1MTJINDE4LjNjMTYuNCAwIDI5LjctMTMuMyAyOS43LTI5LjdDNDQ4IDM4My44IDM2OC4yIDMwNCAyNjkuNyAzMDRIMTc4LjN6Ij48L3BhdGg+Cjwvc3ZnPgo='
+const fullStarSVG = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iI0ZFQjQ0OSIgY2xhc3M9ImJpIGJpLXN0YXItZmlsbCIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNMy42MTIgMTUuNDQzYy0uMzg2LjE5OC0uODI0LS4xNDktLjc0Ni0uNTkybC44My00LjczTC4xNzMgNi43NjVjLS4zMjktLjMxNC0uMTU4LS44ODguMjgzLS45NWw0Ljg5OC0uNjk2TDcuNTM4Ljc5MmMuMTk3LS4zOS43My0uMzkuOTI3IDBsMi4xODQgNC4zMjcgNC44OTguNjk2Yy40NDEuMDYyLjYxMi42MzYuMjgyLjk1bC0zLjUyMiAzLjM1Ni44MyA0LjczYy4wNzguNDQzLS4zNi43OS0uNzQ2LjU5Mkw4IDEzLjE4N2wtNC4zODkgMi4yNTZ6Ii8+Cjwvc3ZnPgo='
+const halfStarSVG = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iI0ZFQjQ0OSIgY2xhc3M9ImJpIGJpLXN0YXItaGFsZiIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNNS4zNTQgNS4xMTkgNy41MzguNzkyQS41MTYuNTE2IDAgMCAxIDggLjVjLjE4MyAwIC4zNjYuMDk3LjQ2NS4yOTJsMi4xODQgNC4zMjcgNC44OTguNjk2QS41MzcuNTM3IDAgMCAxIDE2IDYuMzJhLjU0OC41NDggMCAwIDEtLjE3LjQ0NWwtMy41MjMgMy4zNTYuODMgNC43M2MuMDc4LjQ0My0uMzYuNzktLjc0Ni41OTJMOCAxMy4xODdsLTQuMzg5IDIuMjU2YS41Mi41MiAwIDAgMS0uMTQ2LjA1Yy0uMzQyLjA2LS42NjgtLjI1NC0uNi0uNjQybC44My00LjczTC4xNzMgNi43NjVhLjU1LjU1IDAgMCAxLS4xNzItLjQwMy41OC41OCAwIDAgMSAuMDg1LS4zMDIuNTEzLjUxMyAwIDAgMSAuMzctLjI0NWw0Ljg5OC0uNjk2ek04IDEyLjAyN2EuNS41IDAgMCAxIC4yMzIuMDU2bDMuNjg2IDEuODk0LS42OTQtMy45NTdhLjU2NS41NjUgMCAwIDEgLjE2Mi0uNTA1bDIuOTA3LTIuNzctNC4wNTItLjU3NmEuNTI1LjUyNSAwIDAgMS0uMzkzLS4yODhMOC4wMDEgMi4yMjMgOCAyLjIyNnY5Ljh6Ii8+Cjwvc3ZnPgo='
+const emptyStarSVG = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iI0ZFQjQ0OSIgY2xhc3M9ImJpIGJpLXN0YXIiIHZpZXdCb3g9IjAgMCAxNiAxNiI+CiAgPHBhdGggZD0iTTIuODY2IDE0Ljg1Yy0uMDc4LjQ0NC4zNi43OTEuNzQ2LjU5M2w0LjM5LTIuMjU2IDQuMzg5IDIuMjU2Yy4zODYuMTk4LjgyNC0uMTQ5Ljc0Ni0uNTkybC0uODMtNC43MyAzLjUyMi0zLjM1NmMuMzMtLjMxNC4xNi0uODg4LS4yODItLjk1bC00Ljg5OC0uNjk2TDguNDY1Ljc5MmEuNTEzLjUxMyAwIDAgMC0uOTI3IDBMNS4zNTQgNS4xMmwtNC44OTguNjk2Yy0uNDQxLjA2Mi0uNjEyLjYzNi0uMjgzLjk1bDMuNTIzIDMuMzU2LS44MyA0Ljczem00LjkwNS0yLjc2Ny0zLjY4NiAxLjg5NC42OTQtMy45NTdhLjU2NS41NjUgMCAwIDAtLjE2My0uNTA1TDEuNzEgNi43NDVsNC4wNTItLjU3NmEuNTI1LjUyNSAwIDAgMCAuMzkzLS4yODhMOCAyLjIyM2wxLjg0NyAzLjY1OGEuNTI1LjUyNSAwIDAgMCAuMzkzLjI4OGw0LjA1Mi41NzUtMi45MDYgMi43N2EuNTY1LjU2NSAwIDAgMC0uMTYzLjUwNmwuNjk0IDMuOTU3LTMuNjg2LTEuODk0YS41MDMuNTAzIDAgMCAwLS40NjEgMHoiLz4KPC9zdmc+Cg=='
+
 function App() {
   const { shop, buyerIdentity, presentmentLines, extensionPoint, storage } = useExtensionApi();
   const email = useEmail()
@@ -478,7 +483,7 @@ function Carousel({ data, includedTrue }) {
                                 { key: '__nvd-location', value: 'Checkout Page' },
                                 { key: '__nvd-feed-id', value: JSON.stringify(ids) },
                                 { key: '__nvd-wdg-id', value: data?.widgets?.at(0)?.id?.toString() },
-                                { key: '__nvd-sg-id', value: JSON.stringify(includedTrueIds) }
+                                { key: '__nvd-sg-id', value: JSON.stringify([...new Set(includedTrueIds)]) }
                               ]
                             })
                               .finally(() => {
@@ -518,6 +523,11 @@ function Payment({ data }) {
   const { extensionPoint } = useExtensionApi()
   const widgetData = JSON.parse(data?.widgets?.find(widget => widget.widget_position === extensionPoint)?.widget_customization)
 
+  let iconURLs = []
+  try {
+    iconURLs = JSON.parse(widgetData?.iconURLs)
+  } catch { }
+
   return (
     <>
       <BlockLayout rows={['auto', 'fill']} border='base' borderWidth='base' borderRadius='base' padding='base' spacing='base'>
@@ -527,7 +537,7 @@ function Payment({ data }) {
         {/* image */}
         <InlineLayout inlineAlignment='center' spacing='base'>
           {
-            JSON.parse(widgetData?.iconURLs).map(icon => {
+            iconURLs.map(icon => {
               return <Image key={icon} source={icon} />
             })
           }
@@ -566,27 +576,21 @@ function Review({ data }) {
   const emptyStar = 5 - (fullStar + halfStar)
 
   return (
-    <>
-      <BlockStack border='base' borderRadius='base' borderWidth='base' padding='base'>
-        <Heading level={3}>{widgetData?.title}</Heading>
-        <TextBlock>{widgetData?.user?.review}</TextBlock>
-        <Grid columns={['10%', 'fill', '30%']} spacing='base' blockAlignment='center'>
-          <Image source={widgetData?.user?.image} borderRadius='fullyRounded' />
-          <Text>{widgetData?.user?.name}</Text>
-          <InlineStack inlineAlignment='end' spacing='extraTight'>
-            {
-              Array.from({ length: fullStar }).map(() => <Image key={crypto.randomUUID()} source='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iI0ZFQjQ0OSIgY2xhc3M9ImJpIGJpLXN0YXItZmlsbCIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNMy42MTIgMTUuNDQzYy0uMzg2LjE5OC0uODI0LS4xNDktLjc0Ni0uNTkybC44My00LjczTC4xNzMgNi43NjVjLS4zMjktLjMxNC0uMTU4LS44ODguMjgzLS45NWw0Ljg5OC0uNjk2TDcuNTM4Ljc5MmMuMTk3LS4zOS43My0uMzkuOTI3IDBsMi4xODQgNC4zMjcgNC44OTguNjk2Yy40NDEuMDYyLjYxMi42MzYuMjgyLjk1bC0zLjUyMiAzLjM1Ni44MyA0LjczYy4wNzguNDQzLS4zNi43OS0uNzQ2LjU5Mkw4IDEzLjE4N2wtNC4zODkgMi4yNTZ6Ii8+Cjwvc3ZnPgo=' />)
-            }
-            {
-              Array.from({ length: halfStar }).map(() => <Image key={crypto.randomUUID()} source='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iI0ZFQjQ0OSIgY2xhc3M9ImJpIGJpLXN0YXItaGFsZiIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNNS4zNTQgNS4xMTkgNy41MzguNzkyQS41MTYuNTE2IDAgMCAxIDggLjVjLjE4MyAwIC4zNjYuMDk3LjQ2NS4yOTJsMi4xODQgNC4zMjcgNC44OTguNjk2QS41MzcuNTM3IDAgMCAxIDE2IDYuMzJhLjU0OC41NDggMCAwIDEtLjE3LjQ0NWwtMy41MjMgMy4zNTYuODMgNC43M2MuMDc4LjQ0My0uMzYuNzktLjc0Ni41OTJMOCAxMy4xODdsLTQuMzg5IDIuMjU2YS41Mi41MiAwIDAgMS0uMTQ2LjA1Yy0uMzQyLjA2LS42NjgtLjI1NC0uNi0uNjQybC44My00LjczTC4xNzMgNi43NjVhLjU1LjU1IDAgMCAxLS4xNzItLjQwMy41OC41OCAwIDAgMSAuMDg1LS4zMDIuNTEzLjUxMyAwIDAgMSAuMzctLjI0NWw0Ljg5OC0uNjk2ek04IDEyLjAyN2EuNS41IDAgMCAxIC4yMzIuMDU2bDMuNjg2IDEuODk0LS42OTQtMy45NTdhLjU2NS41NjUgMCAwIDEgLjE2Mi0uNTA1bDIuOTA3LTIuNzctNC4wNTItLjU3NmEuNTI1LjUyNSAwIDAgMS0uMzkzLS4yODhMOC4wMDEgMi4yMjMgOCAyLjIyNnY5Ljh6Ii8+Cjwvc3ZnPgo=' />)
-            }
-            {
-              Array.from({ length: emptyStar }).map(() => <Image key={crypto.randomUUID()} source='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iI0ZFQjQ0OSIgY2xhc3M9ImJpIGJpLXN0YXIiIHZpZXdCb3g9IjAgMCAxNiAxNiI+CiAgPHBhdGggZD0iTTIuODY2IDE0Ljg1Yy0uMDc4LjQ0NC4zNi43OTEuNzQ2LjU5M2w0LjM5LTIuMjU2IDQuMzg5IDIuMjU2Yy4zODYuMTk4LjgyNC0uMTQ5Ljc0Ni0uNTkybC0uODMtNC43MyAzLjUyMi0zLjM1NmMuMzMtLjMxNC4xNi0uODg4LS4yODItLjk1bC00Ljg5OC0uNjk2TDguNDY1Ljc5MmEuNTEzLjUxMyAwIDAgMC0uOTI3IDBMNS4zNTQgNS4xMmwtNC44OTguNjk2Yy0uNDQxLjA2Mi0uNjEyLjYzNi0uMjgzLjk1bDMuNTIzIDMuMzU2LS44MyA0Ljczem00LjkwNS0yLjc2Ny0zLjY4NiAxLjg5NC42OTQtMy45NTdhLjU2NS41NjUgMCAwIDAtLjE2My0uNTA1TDEuNzEgNi43NDVsNC4wNTItLjU3NmEuNTI1LjUyNSAwIDAgMCAuMzkzLS4yODhMOCAyLjIyM2wxLjg0NyAzLjY1OGEuNTI1LjUyNSAwIDAgMCAuMzkzLjI4OGw0LjA1Mi41NzUtMi45MDYgMi43N2EuNTY1LjU2NSAwIDAgMC0uMTYzLjUwNmwuNjk0IDMuOTU3LTMuNjg2LTEuODk0YS41MDMuNTAzIDAgMCAwLS40NjEgMHoiLz4KPC9zdmc+Cg==' />)
-            }
-          </InlineStack>
-        </Grid>
-      </BlockStack>
-    </>
+    <BlockStack border='base' borderRadius='base' borderWidth='base' padding='base'>
+      <Heading level={3}>{widgetData?.title}</Heading>
+      <TextBlock>{widgetData?.user?.review}</TextBlock>
+      <Grid columns={['10%', 'fill', '30%']} spacing='base' blockAlignment='center'>
+        <Image
+          source={widgetData?.user?.image || reviewAvatar}
+          borderRadius='fullyRounded' />
+        <Text>{widgetData?.user?.name}</Text>
+        <InlineStack inlineAlignment='end' spacing='extraTight'>
+          {Array.from({ length: fullStar }).map(() => <Image key={crypto.randomUUID()} source={fullStarSVG} />)}
+          {Array.from({ length: halfStar }).map(() => <Image key={crypto.randomUUID()} source={halfStarSVG} />)}
+          {Array.from({ length: emptyStar }).map(() => <Image key={crypto.randomUUID()} source={emptyStarSVG} />)}
+        </InlineStack>
+      </Grid>
+    </BlockStack>
   )
 }
 
