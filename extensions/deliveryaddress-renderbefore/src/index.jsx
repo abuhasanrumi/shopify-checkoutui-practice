@@ -1,18 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useExtensionApi, render, BlockStack, Heading, Button, Icon, Grid, InlineStack, Image, Text, TextBlock, SkeletonImage, SkeletonText, useCartLines, Spinner, BlockSpacer, Divider, Pressable, View, InlineLayout, BlockLayout, Checkbox, useExtensionEditor, useSettings, useTarget, useBuyerJourneyIntercept, useBuyerJourney, useApplyAttributeChange, useEmail } from '@shopify/checkout-ui-extensions-react';
 
-// render('Checkout::Actions::RenderBefore', () => <App />);
-// render('Checkout::CartLines::RenderAfter', () => <App />);
-// render('Checkout::CartLineDetails::RenderAfter', () => <App />);
-// render('Checkout::Contact::RenderAfter', () => <App />);
-// render('Checkout::CustomerInformation::RenderAfter', () => <App />);
-// render('Checkout::DeliveryAddress::RenderBefore', () => <App />);
-// render('Checkout::Dynamic::Render', () => <App />);
-// render('Checkout::Reductions::RenderBefore', () => <App />);
-// render('Checkout::Reductions::RenderAfter', () => <App />);
-// render('Checkout::ShippingMethods::RenderBefore', () => <App />);
-// render('Checkout::ShippingMethods::RenderBefore', () => <App />);
-// render('Checkout::ShippingMethods::RenderAfter', () => <App />);
+render('Checkout::DeliveryAddress::RenderBefore', () => <App />);
 
 const reviewAvatar = 'data:image/svg+xml;base64,PHN2ZyBzdHJva2U9ImN1cnJlbnRDb2xvciIgZmlsbD0iY3VycmVudENvbG9yIiBzdHJva2Utd2lkdGg9IjAiIHZpZXdCb3g9IjAgMCA0NDggNTEyIiBoZWlnaHQ9IjQ1cHgiCiAgd2lkdGg9IjQ1cHgiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CiAgPHBhdGgKICAgIGQ9Ik0yMjQgMjU2QTEyOCAxMjggMCAxIDAgMjI0IDBhMTI4IDEyOCAwIDEgMCAwIDI1NnptLTQ1LjcgNDhDNzkuOCAzMDQgMCAzODMuOCAwIDQ4Mi4zQzAgNDk4LjcgMTMuMyA1MTIgMjkuNyA1MTJINDE4LjNjMTYuNCAwIDI5LjctMTMuMyAyOS43LTI5LjdDNDQ4IDM4My44IDM2OC4yIDMwNCAyNjkuNyAzMDRIMTc4LjN6Ij48L3BhdGg+Cjwvc3ZnPgo='
 const fullStarSVG = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iI0ZFQjQ0OSIgY2xhc3M9ImJpIGJpLXN0YXItZmlsbCIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNMy42MTIgMTUuNDQzYy0uMzg2LjE5OC0uODI0LS4xNDktLjc0Ni0uNTkybC44My00LjczTC4xNzMgNi43NjVjLS4zMjktLjMxNC0uMTU4LS44ODguMjgzLS45NWw0Ljg5OC0uNjk2TDcuNTM4Ljc5MmMuMTk3LS4zOS43My0uMzkuOTI3IDBsMi4xODQgNC4zMjcgNC44OTguNjk2Yy40NDEuMDYyLjYxMi42MzYuMjgyLjk1bC0zLjUyMiAzLjM1Ni44MyA0LjczYy4wNzguNDQzLS4zNi43OS0uNzQ2LjU5Mkw4IDEzLjE4N2wtNC4zODkgMi4yNTZ6Ii8+Cjwvc3ZnPgo='
@@ -681,3 +670,4 @@ function Quote({ data }) {
     </>
   )
 }
+
