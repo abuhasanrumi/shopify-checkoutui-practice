@@ -607,7 +607,7 @@ function FAQ({ data }) {
   //   { id: '3e9bc4b4-9887-47ca-8cc3-88f24be64cd3', q: 'How much does Guide Shipping Protection cost?', a: 'Eu dolor ac sagittis interdum ut eleifend at sed. Tempor accumsan in elit, nibh ac mattis turpis odio. Libero egestas id nec magna ipsum morbi. Eu vel placerat ridiculus fermentum duis. Purus ipsum mus augue non nunc, libero feugiat. Pharetra volutpat nibh facilisi auctor aliquet mattis dictum ac congue.' }
   // ]
   const faqs = JSON.parse(data.widgets.find(widget => widget.widget_position === extensionPoint)?.widget_customization)?.faqs
-  const faqTitle = JSON.parse(data.widgets.find(widget => widget.widget_position === extensionPoint)?.widget_customization)?.['faq-title']
+  const faqTitle = JSON.parse(data.widgets.find(widget => widget.widget_position === extensionPoint)?.widget_customization)?.title
 
   return (
     <>
