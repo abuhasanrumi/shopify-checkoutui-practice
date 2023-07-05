@@ -520,15 +520,6 @@ function Payment({ data }) {
               return <Image key={icon} source={icon} />
             })
           }
-          {/* <Image source='https://i.postimg.cc/FzdC262n/Group.png' /> */}
-          {/* <Image source='https://i.postimg.cc/C1VjFQBQ/Frame.png' /> */}
-          {/* <Image source='https://i.postimg.cc/Gtg8s7tr/Frame-1.png' /> */}
-          {/* <Image source='https://i.postimg.cc/VNw65Qgn/Frame-2.png' /> */}
-          {/* <Image source='https://i.postimg.cc/fRf3cRJB/Frame-3.png' /> */}
-          {/* <Image source='https://i.postimg.cc/prKVPsjq/Frame-4.png' /> */}
-          {/* <Image source='https://i.postimg.cc/L6R2zBLF/Frame-5.png' /> */}
-          {/* <Image source='https://i.postimg.cc/MT8rhtWW/Frame-6.png' /> */}
-          {/* <Image source='https://i.postimg.cc/FRyxtTQB/visa.png' /> */}
         </InlineLayout>
       </BlockLayout>
     </>
