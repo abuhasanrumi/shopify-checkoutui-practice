@@ -660,7 +660,7 @@ function Quote({ data }) {
         <Text size='base' appearance='subdued'>― Buy now</Text>
         <Grid columns={['10%', 'fill', '30%']} spacing='base' blockAlignment='center'>
           <Image source={widgetData?.user?.image || avatar} borderRadius='base' />
-          <Text>{widgetData?.user?.name}</Text>
+          <Text>{widgetData?.user?.name || 'Anonymous'}</Text>
           <InlineStack inlineAlignment='end'>
             <Image source='data:image/svg+xml;base64,PHN2ZyBoZWlnaHQ9IjQ1IiB3aWR0aD0iNjAiIGZpbGw9JyMxODc5QjknIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDQ0OCA1MTIiPjwhLS0hIEZvbnQgQXdlc29tZSBQcm8gNi40LjAgYnkgQGZvbnRhd2Vzb21lIC0gaHR0cHM6Ly9mb250YXdlc29tZS5jb20gTGljZW5zZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tL2xpY2Vuc2UgKENvbW1lcmNpYWwgTGljZW5zZSkgQ29weXJpZ2h0IDIwMjMgRm9udGljb25zLCBJbmMuIC0tPjxwYXRoIGQ9Ik00NDggMjk2YzAgNjYuMy01My43IDEyMC0xMjAgMTIwaC04Yy0xNy43IDAtMzItMTQuMy0zMi0zMnMxNC4zLTMyIDMyLTMyaDhjMzAuOSAwIDU2LTI1LjEgNTYtNTZ2LThIMzIwYy0zNS4zIDAtNjQtMjguNy02NC02NFYxNjBjMC0zNS4zIDI4LjctNjQgNjQtNjRoNjRjMzUuMyAwIDY0IDI4LjcgNjQgNjR2MzIgMzIgNzJ6bS0yNTYgMGMwIDY2LjMtNTMuNyAxMjAtMTIwIDEyMEg2NGMtMTcuNyAwLTMyLTE0LjMtMzItMzJzMTQuMy0zMiAzMi0zMmg4YzMwLjkgMCA1Ni0yNS4xIDU2LTU2di04SDY0Yy0zNS4zIDAtNjQtMjguNy02NC02NFYxNjBjMC0zNS4zIDI4LjctNjQgNjQtNjRoNjRjMzUuMyAwIDY0IDI4LjcgNjQgNjR2MzIgMzIgNzJ6Ii8+PC9zdmc+Cg==' />
             {/* { */}
