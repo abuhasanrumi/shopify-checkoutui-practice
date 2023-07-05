@@ -49,8 +49,10 @@ function App() {
           .then(res => res.json())
           .then(resData => {
             if (resData.status === 200) {
-              setData(resData)
-              setTemplateId(resData?.widgets?.find(widget => widget?.widget_position === extensionPoint)?.template_id)
+              const oldResData = structuredClone(resData)
+              oldResData.widgets = [resData.widgets.find(widget => widget.active)]
+              setData(oldResData)
+              setTemplateId(oldResData?.widgets?.find(widget => widget?.widget_position === extensionPoint)?.template_id)
               // storage.write('storageData', resData)
             }
           })
