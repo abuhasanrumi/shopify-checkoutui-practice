@@ -31,27 +31,19 @@ function App() {
   //     : { behavior: 'allow' }
   // })
 
-  useEffect(() => {
-    storage.read('storageData').then(storageData => {
-      if (!storageData) {
-        fetch(`https://api.nvdmini.com/api/upsell-checkout-configuration?shop-url=${shop.myshopifyDomain}&user-email=${buyerIdentity?.email?.current}&products=${products}&widget-position=${extensionPoint}`)
-          .then(res => res.json())
-          .then(resData => {
-            if (resData.status === 200) {
-              const oldResData = structuredClone(resData)
-              oldResData.widgets = [resData.widgets.find(widget => widget.active)]
-              setData(oldResData)
-              setTemplateId(oldResData?.widgets?.find(widget => widget?.widget_position === extensionPoint)?.template_id)
-              // storage.write('storageData', resData)
-            }
-          })
-          .finally(() => setLoading(false))
-      } else {
-        setData(storageData)
-        setTemplateId(storageData?.widgets?.find(widget => widget?.widget_position === extensionPoint)?.template_id)
-        setLoading(false)
+  useEffect(async () => {
+    try {
+      const res = await fetch(`https://api.nvdmini.com/api/upsell-checkout-configuration?shop-url=${shop.myshopifyDomain}&user-email=${buyerIdentity?.email?.current}&products=${products}&widget-position=${extensionPoint}`)
+      const resData = await res.json()
+      if (resData.status === 200) {
+        const oldResData = structuredClone(resData)
+        oldResData.widgets = [resData.widgets.find(widget => widget.active)]
+        setData(oldResData)
+        setTemplateId(oldResData?.widgets?.find(widget => widget?.widget_position === extensionPoint)?.template_id)
       }
-    })
+    } finally {
+      setLoading(false)
+    }
   }, [])
 
   if (loading) {
