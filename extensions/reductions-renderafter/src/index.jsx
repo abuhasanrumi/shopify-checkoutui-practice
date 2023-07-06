@@ -55,7 +55,7 @@ function App() {
     </InlineStack>
   } else {
     if (display && templateId === 1) {
-      return <Carousel data={data} includedTrue={includedTrue} productOnScreen={3} />
+      return <Carousel data={data} includedTrue={includedTrue} productOnScreen={2} />
     } else if (display && templateId === 2) {
       return <FAQ data={data} />
     } else if (display && templateId === 3) {
