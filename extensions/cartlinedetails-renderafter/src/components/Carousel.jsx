@@ -127,6 +127,7 @@ export default function Carousel({ data, includedTrue }) {
                         :
                         <Button
                           loading={loading[product?.node?.variants?.nodes?.at(0)?.id]}
+                          disabled={isBuying}
                           onPress={() => {
                             setIsBuying(true)
                             const oldBoughtProducts = structuredClone(boughtProducts)
