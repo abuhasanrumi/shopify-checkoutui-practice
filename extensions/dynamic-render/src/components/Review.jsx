@@ -1,5 +1,5 @@
 import { useExtensionApi, BlockStack, Heading, Grid, InlineStack, Image, Text, TextBlock } from '@shopify/checkout-ui-extensions-react';
-import { reviewAvatar, fullStarSVG, halfStarSVG, emptyStarSVG } from '../utils/icons.js';
+import { fullStarSVG, halfStarSVG, emptyStarSVG, avatar } from '../utils/icons.js';
 
 export default function Review({ data }) {
     const { extensionPoint } = useExtensionApi()
@@ -15,7 +15,7 @@ export default function Review({ data }) {
             <TextBlock>{widgetData?.user?.review}</TextBlock>
             <Grid columns={['10%', 'fill', '30%']} spacing='base' blockAlignment='center'>
                 <Image
-                    source={widgetData?.user?.image || reviewAvatar}
+                    source={widgetData?.user?.image || avatar}
                     borderRadius='fullyRounded'
                     aspectRatio={1}
                     fit='cover'

@@ -19,12 +19,21 @@ export default function Carousel({ data, includedTrue, productOnScreen }) {
     const [isBuying, setIsBuying] = useState(false)
 
     useEffect(() => {
+        let tempNext = next
         if (products.length) {
             const emptyArray = []
             const oldProducts = structuredClone(products)
-            oldProducts.forEach((i, j) => {
-                if (j >= next && emptyArray.length < productOnScreen) emptyArray.push(i)
-            })
+            function pushFunc() {
+                oldProducts.forEach((i, j) => {
+                    if (j >= tempNext && emptyArray.length < productOnScreen) emptyArray.push(i)
+                })
+            }
+            pushFunc()
+            if (!emptyArray.length) {
+                tempNext = 0
+                setNext(0)
+                pushFunc()
+            }
             setFilteredProducts(emptyArray)
         }
     }, [products, next])
