@@ -97,7 +97,7 @@ export default function Carousel({ data, includedTrue, productOnScreen }) {
         }
 
         {/* products */}
-        <Grid spacing='base' columns={Array.from({ length: productOnScreen }, () => 'auto')}>
+        <Grid spacing='base' columns={Array.from({ length: productOnScreen }, () => 'fill')}>
           {
             filteredProducts.map((product, _index) => {
               const ids = []
