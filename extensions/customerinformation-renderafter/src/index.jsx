@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useExtensionApi, render, InlineStack, useCartLines, Spinner, useEmail } from '@shopify/checkout-ui-extensions-react';
+import { useExtensionApi, render, InlineStack, useCartLines, Spinner, useEmail, usePhone } from '@shopify/checkout-ui-extensions-react';
 import Carousel from './components/Carousel.jsx';
 import SMS from './components/SMS.jsx';
 import FAQ from './components/FAQ.jsx';
@@ -14,6 +14,7 @@ render('Checkout::CustomerInformation::RenderAfter', () => <App />);
 function App() {
   const { shop, buyerIdentity, presentmentLines, extensionPoint, storage } = useExtensionApi();
   const email = useEmail()
+  const phone = usePhone()
   const lines = useCartLines()
   const [templateId, setTemplateId] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -35,7 +36,13 @@ function App() {
 
   useEffect(async () => {
     try {
-      const res = await fetch(`https://api.nvdmini.com/api/upsell-checkout-configuration?shop-url=${shop.myshopifyDomain}&user-email=${buyerIdentity?.email?.current}&products=${products}&widget-position=${extensionPoint}`)
+      const fetchURL = `https://api.nvdmini.com/api/upsell-checkout-configuration
+                          ?shop-url=${shop.myshopifyDomain}
+                          &user-email=${buyerIdentity?.email?.current}
+                          &products=${products}
+                          &widget-position=${extensionPoint}
+                          &user-phone=${phone}`
+      const res = await fetch(fetchURL.replace(/\s/g, ''))
       const resData = await res.json()
       if (resData.status === 200) {
         const oldResData = structuredClone(resData)
