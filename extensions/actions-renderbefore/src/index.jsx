@@ -8,6 +8,7 @@ import Quote from './components/Quote.jsx';
 import Review from './components/Review.jsx';
 import Payment from './components/Payment.jsx';
 import segmentCondition from './utils/segmentCondition.js';
+import ListProduct from './components/ListProduct.jsx';
 
 render('Checkout::Actions::RenderBefore', () => <App />);
 
@@ -75,6 +76,8 @@ function App() {
       return <Review data={data} />
     } else if (display && templateId === 7) {
       return <Banner data={data} />
+    } else if (display && templateId === 8) {
+      return <ListProduct data={data} />
     } else {
       return <></>
     }
