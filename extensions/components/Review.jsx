@@ -1,5 +1,5 @@
 import { useExtensionApi, BlockStack, Heading, Grid, InlineStack, Image, Text, TextBlock } from '@shopify/checkout-ui-extensions-react';
-import { fullStarSVG, halfStarSVG, emptyStarSVG, avatar } from '../utils/icons.js';
+import { fullStarSVG, halfStarSVG, emptyStarSVG, avatar } from './icons.js';
 
 export default function Review({ data }) {
     const { extensionPoint } = useExtensionApi()

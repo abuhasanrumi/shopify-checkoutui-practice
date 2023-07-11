@@ -1,5 +1,5 @@
 import { useExtensionApi, BlockStack, Grid, InlineStack, Image, Text } from '@shopify/checkout-ui-extensions-react';
-import { avatar, quoteIcon } from '../utils/icons.js';
+import { avatar, quoteIcon } from './icons.js';
 
 export default function Quote({ data }) {
   const { extensionPoint } = useExtensionApi()
