@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from 'react';
 import { useExtensionApi, render, InlineStack, useCartLines, Spinner, useEmail, usePhone } from '@shopify/checkout-ui-extensions-react';
-import Carousel from './components/Carousel.jsx';
-import SMS from './components/SMS.jsx';
-import FAQ from './components/FAQ.jsx';
-import Banner from './components/Banner.jsx';
-import Quote from './components/Quote.jsx';
-import Review from './components/Review.jsx';
-import Payment from './components/Payment.jsx';
+import Carousel from '../../components/Carousel.jsx';
+import SMS from '../../components/SMS.jsx';
+import FAQ from '../../components/FAQ.jsx';
+import Banner from '../../components/Banner.jsx';
+import Quote from '../../components/Quote.jsx';
+import Review from '../../components/Review.jsx';
+import Payment from '../../components/Payment.jsx';
 import segmentCondition from './utils/segmentCondition.js';
-import ListProduct from './components/ListProduct.jsx';
+import ListProduct from '../../components/ListProduct.jsx';
+import SingleProduct from '../../components/SingleProduct.jsx';
+import Gift from '../../components/Gift.jsx';
 
 render('Checkout::Actions::RenderBefore', () => <App />);
 
@@ -78,6 +80,8 @@ function App() {
       return <Banner data={data} />
     } else if (display && templateId === 8) {
       return <ListProduct data={data} />
+    } else if (display && templateId === 9) {
+      return <SingleProduct data={data} />
     } else {
       return <></>
     }
