@@ -8,7 +8,9 @@ export default function Carousel({ data, includedTrue, productOnScreen }) {
 
   const [products, setProducts] = useState(() => {
     const productsArray = []
-    data?.widgets?.at(0).selected_feeds.forEach(i => JSON.parse(i.products)?.forEach(j => productsArray.push(j)))
+    data?.widgets?.at(0).selected_feeds.forEach(i => JSON.parse(i.products)?.forEach(j => {
+      j?.node?.variants?.nodes?.at(0)?.inventoryQuantity > 0 && productsArray.push(j)
+    }))
     return productsArray
   })
   const [filteredProducts, setFilteredProducts] = useState(Array.from({ length: productOnScreen }))
