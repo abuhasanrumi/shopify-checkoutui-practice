@@ -11,6 +11,7 @@ import segmentCondition from './utils/segmentCondition.js';
 import ListProduct from '../../components/ListProduct.jsx';
 import SingleProduct from '../../components/SingleProduct.jsx';
 import Gift from '../../components/Gift.jsx';
+import Coupon from '../../components/Coupon.jsx';
 
 render('Checkout::Actions::RenderBefore', () => <App />);
 
@@ -82,6 +83,10 @@ function App() {
       return <ListProduct data={data} />
     } else if (display && templateId === 9) {
       return <SingleProduct data={data} />
+    } else if (display && templateId === 10) {
+      return <Gift data={data} />
+    } else if (display && templateId === 11) {
+      return <Coupon data={data} />
     } else {
       return <></>
     }
