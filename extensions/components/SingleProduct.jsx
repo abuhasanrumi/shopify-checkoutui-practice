@@ -16,7 +16,8 @@ export default function SingleProduct({ data }) {
     setProduct(tempProducts.at(Math.floor(Math.random() * tempProducts.length)))
   }, [data])
 
-  return (
+  if (!product.length) return <></>
+  else return (
     <>
       <BlockLayout rows={['fill', 'auto', 'auto']} border='base' borderRadius='base' borderWidth='base' padding='base'>
         <InlineLayout blockAlignment='center' columns={['25%', '75%']}>
