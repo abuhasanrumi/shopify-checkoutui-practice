@@ -11,6 +11,13 @@ import segmentCondition from './utils/segmentCondition.js';
 import ListProduct from '../../components/ListProduct.jsx';
 import SingleProduct from '../../components/SingleProduct.jsx';
 import Gift from '../../components/Gift.jsx';
+import Coupon from '../../components/Coupon.jsx';
+import BNPL from '../../components/BNPL.jsx';
+import Timer from '../../components/Timer.jsx'
+import BNPLPayment from '../../components/BNPLPayment.jsx'
+import Features from '../../components/Features.jsx'
+import FreeGift from '../../components/FreeGift.jsx'
+import STS from '../../components/STS.jsx'
 
 render('Checkout::CartLines::RenderAfter', () => <App />);
 

@@ -16,6 +16,8 @@ import BNPL from '../../components/BNPL.jsx';
 import Timer from '../../components/Timer.jsx'
 import BNPLPayment from '../../components/BNPLPayment.jsx'
 import Features from '../../components/Features.jsx'
+import FreeGift from '../../components/FreeGift.jsx'
+import STS from '../../components/STS.jsx'
 
 render('Checkout::Contact::RenderAfter', () => <App />);
 

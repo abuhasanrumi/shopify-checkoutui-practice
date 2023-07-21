@@ -1,13 +1,24 @@
 import { useEffect, useRef, useState } from 'react';
 import { useExtensionApi, render, InlineStack, useCartLines, Spinner, useEmail, usePhone } from '@shopify/checkout-ui-extensions-react';
 import Carousel from './components/Carousel.jsx';
-import SMS from './components/SMS.jsx';
-import FAQ from './components/FAQ.jsx';
-import Banner from './components/Banner.jsx';
-import Quote from './components/Quote.jsx';
-import Review from './components/Review.jsx';
-import Payment from './components/Payment.jsx';
+import Carousel from '../../components/Carousel.jsx';
+import SMS from '../../components/SMS.jsx';
+import FAQ from '../../components/FAQ.jsx';
+import Banner from '../../components/Banner.jsx';
+import Quote from '../../components/Quote.jsx';
+import Review from '../../components/Review.jsx';
+import Payment from '../../components/Payment.jsx';
 import segmentCondition from './utils/segmentCondition.js';
+import ListProduct from '../../components/ListProduct.jsx';
+import SingleProduct from '../../components/SingleProduct.jsx';
+import Gift from '../../components/Gift.jsx';
+import Coupon from '../../components/Coupon.jsx';
+import BNPL from '../../components/BNPL.jsx';
+import Timer from '../../components/Timer.jsx'
+import BNPLPayment from '../../components/BNPLPayment.jsx'
+import Features from '../../components/Features.jsx'
+import FreeGift from '../../components/FreeGift.jsx'
+import STS from '../../components/STS.jsx'
 
 render('Checkout::CartLineDetails::RenderAfter', () => <App />);
 
