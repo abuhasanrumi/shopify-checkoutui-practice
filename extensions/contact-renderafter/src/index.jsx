@@ -11,6 +11,11 @@ import segmentCondition from './utils/segmentCondition.js';
 import ListProduct from '../../components/ListProduct.jsx';
 import SingleProduct from '../../components/SingleProduct.jsx';
 import Gift from '../../components/Gift.jsx';
+import Coupon from '../../components/Coupon.jsx';
+import BNPL from '../../components/BNPL.jsx';
+import Timer from '../../components/Timer.jsx'
+import BNPLPayment from '../../components/BNPLPayment.jsx'
+import Features from '../../components/Features.jsx'
 
 render('Checkout::Contact::RenderAfter', () => <App />);
 
@@ -79,7 +84,25 @@ function App() {
     } else if (display && templateId === 7) {
       return <Banner data={data} />
     } else if (display && templateId === 8) {
-      return <ListProduct data={data} />
+      return <ListProduct includedTrue={includedTrue} data={data} />
+    } else if (display && templateId === 9) {
+      return <SingleProduct includedTrue={includedTrue} data={data} />
+    } else if (display && templateId === 10) {
+      return <Gift data={data} />
+    } else if (display && templateId === 11) {
+      return <Coupon data={data} />
+    } else if (display && templateId === 12) {
+      return <BNPL data={data} />
+    } else if (display && templateId === 13) {
+      return <Features data={data} />
+    } else if (display && templateId === 14) {
+      return <Timer data={data} />
+    } else if (display && templateId === 15) {
+      return <FreeGift data={data} />
+    } else if (display && templateId === 16) {
+      return <BNPLPayment data={data} />
+    } else if (display && templateId === 17) {
+      return <STS data={data} />
     } else {
       return <></>
     }

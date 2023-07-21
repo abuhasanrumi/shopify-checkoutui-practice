@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useExtensionApi, render, InlineStack, useCartLines, Spinner, useEmail, usePhone } from '@shopify/checkout-ui-extensions-react';
+import { useExtensionApi, render, InlineStack, useCartLines, Spinner, useEmail, usePhone, ChoiceList, BlockLayout, Text, Choice, InlineLayout, TextBlock, Select, InlineSpacer, View } from '@shopify/checkout-ui-extensions-react';
 import Carousel from '../../components/Carousel.jsx';
 import SMS from '../../components/SMS.jsx';
 import FAQ from '../../components/FAQ.jsx';
@@ -12,6 +12,12 @@ import ListProduct from '../../components/ListProduct.jsx';
 import SingleProduct from '../../components/SingleProduct.jsx';
 import Gift from '../../components/Gift.jsx';
 import Coupon from '../../components/Coupon.jsx';
+import BNPL from '../../components/BNPL.jsx';
+import Timer from '../../components/Timer.jsx'
+import BNPLPayment from '../../components/BNPLPayment.jsx'
+import Features from '../../components/Features.jsx'
+import FreeGift from '../../components/FreeGift.jsx'
+import STS from '../../components/STS.jsx'
 
 render('Checkout::Actions::RenderBefore', () => <App />);
 
@@ -80,21 +86,27 @@ function App() {
     } else if (display && templateId === 7) {
       return <Banner data={data} />
     } else if (display && templateId === 8) {
-      return <ListProduct data={data} />
+      return <ListProduct includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 9) {
-      return <SingleProduct data={data} />
+      return <SingleProduct includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 10) {
       return <Gift data={data} />
     } else if (display && templateId === 11) {
       return <Coupon data={data} />
+    } else if (display && templateId === 12) {
+      return <BNPL data={data} />
+    } else if (display && templateId === 13) {
+      return <Features data={data} />
+    } else if (display && templateId === 14) {
+      return <Timer data={data} />
+    } else if (display && templateId === 15) {
+      return <FreeGift data={data} />
+    } else if (display && templateId === 16) {
+      return <BNPLPayment data={data} />
+    } else if (display && templateId === 17) {
+      return <STS data={data} />
     } else {
       return <></>
     }
   }
-
-  // return (
-  //   <Banner title="navidium-widgets">
-  //     {translate('welcome', { extensionPoint })}
-  //   </Banner>
-  // );
 }
