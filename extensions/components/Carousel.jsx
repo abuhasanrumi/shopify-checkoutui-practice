@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react';
 import { useExtensionApi, BlockStack, Heading, Button, Icon, Grid, InlineStack, Image, Text, TextBlock, SkeletonImage, SkeletonText } from '@shopify/checkout-ui-extensions-react';
 
 export default function Carousel({ data, includedTrue, productOnScreen }) {
+  const fixedTime = JSON.parse(data?.widgets?.at(0)?.widget_customization)?.time
   const includedTrueIds = []
-  const { i18n, applyCartLinesChange, extensionPoint } = useExtensionApi()
+  const { i18n, applyCartLinesChange, extensionPoint, applyDiscountCodeChange } = useExtensionApi()
   includedTrue?.current?.filter(i => i.position === extensionPoint)?.forEach(i => includedTrueIds.push(i.id))
 
   const [products, setProducts] = useState(() => {
@@ -19,6 +20,19 @@ export default function Carousel({ data, includedTrue, productOnScreen }) {
   const [loading, setLoading] = useState({})
   const [boughtProducts, setBoughtProducts] = useState([])
   const [isBuying, setIsBuying] = useState(false)
+  const [time, setTime] = useState(fixedTime)
+
+  useEffect(() => {
+    if (fixedTime) {
+      const timer = setInterval(() => setTime(state => state - 1), 1000)
+      const timerCleaner = setTimeout(() => clearInterval(timer), ((fixedTime + 2) * 1000))
+
+      return () => {
+        clearInterval(timer)
+        clearTimeout(timerCleaner)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     let tempNext = next
@@ -62,7 +76,7 @@ export default function Carousel({ data, includedTrue, productOnScreen }) {
   const feedsWithId = []
   data?.widgets?.find(widget => widget?.widget_position === extensionPoint)?.selected_feeds?.forEach(feed => JSON.parse(feed?.products).forEach(product => feedsWithId.push({ variantId: product?.node?.variants?.nodes?.at(0)?.id, feedId: feed.id })))
 
-  if (!feeds.length || !products.length) return <></>
+  if (!feeds.length || !products.length || time <= 0) return <></>
   else return (
     <>
       <BlockStack border='base' padding='base' borderRadius='base'>
@@ -161,6 +175,10 @@ export default function Carousel({ data, includedTrue, productOnScreen }) {
                                 newLoading[product?.node?.variants?.nodes?.at(0)?.id] = false
                                 setLoading(newLoading)
                                 setIsBuying(false)
+                                applyDiscountCodeChange({
+                                  type: 'addDiscountCode',
+                                  code: 'test99'
+                                }).then(res => console.log(res))
                               })
                           }}
                         >{JSON.parse(data?.widgets?.at(0)?.widget_customization)?.cta || 'Add to cart'}</Button>
