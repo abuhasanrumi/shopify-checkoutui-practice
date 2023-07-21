@@ -21,7 +21,9 @@ export default function Coupon({ data }) {
                 applyDiscountCodeChange({ type: 'addDiscountCode', code: couponCode })
                   .finally(() => setLoading(false))
               }}
-            >Apply</Button>
+            >
+              Apply
+            </Button>
           </View>
         </Grid>
       </View>

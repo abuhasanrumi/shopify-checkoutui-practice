@@ -1,9 +1,9 @@
 import { BlockLayout, Heading, Grid, Text, Image, View, Button, TextBlock, useExtensionApi, ScrollView, useApplyCartLinesChange } from "@shopify/checkout-ui-extensions-react";
 import { useEffect, useState } from "react";
 
-export default function ListProduct({ data }) {
+export default function ListProduct({ data, includedTrue }) {
   const fixedTime = JSON.parse(data?.widgets?.at(0)?.widget_customization)?.time
-  const { i18n } = useExtensionApi()
+  const { i18n, extensionPoint } = useExtensionApi()
   const applyCartLineChange = useApplyCartLinesChange()
 
   const [products, setProducts] = useState([])
@@ -33,6 +33,13 @@ export default function ListProduct({ data }) {
     setLoading(tempLoading)
   }, [data])
 
+  const feeds = []
+  data?.widgets?.find(widget => widget?.widget_position === extensionPoint)?.selected_feeds?.forEach(feed => feeds.push(feed?.products))
+  const feedsWithId = []
+  data?.widgets?.find(widget => widget?.widget_position === extensionPoint)?.selected_feeds?.forEach(feed => JSON.parse(feed?.products).forEach(product => feedsWithId.push({ variantId: product?.node?.variants?.nodes?.at(0)?.id, feedId: feed.id })))
+  const includedTrueIds = []
+  includedTrue?.current?.filter(i => i.position === extensionPoint)?.forEach(i => includedTrueIds.push(i.id))
+
   if (time <= 0) return <></>
   else return (
     <ScrollView hint={{ type: 'pill', content: 'Scroll to view' }} maxBlockSize={500}>
@@ -46,6 +53,9 @@ export default function ListProduct({ data }) {
           <Grid spacing='base'>
             {
               products.map(product => {
+                const ids = []
+                feedsWithId.filter(feed => product?.node?.variants?.nodes?.at(0)?.id === feed.variantId)?.forEach(id => ids.push(id.feedId))
+
                 return (
                   <Grid border='base' borderWidth='base' borderRadius='base' key={product?.node?.id + 'NavidiumListProduct'} blockAlignment='center' columns={['30%', 'fill', '30%']}>
                     <View padding='base'>
@@ -53,6 +63,14 @@ export default function ListProduct({ data }) {
                     </View>
                     <View>
                       <TextBlock size="small">{product?.node?.title}</TextBlock>
+                      {
+                        product?.node?.variants?.nodes?.at(0)?.compareAtPrice ?
+                          <>
+                            <Text appearance="subdued" size="small" accessibilityRole='deletion'>{i18n.formatCurrency(product?.node?.variants?.nodes?.at(0)?.compareAtPrice)}</Text>
+                            <Text> </Text>
+                          </>
+                          : null
+                      }
                       <Text appearance="subdued" size="small">{i18n.formatCurrency(product?.node?.variants?.nodes?.at(0)?.price)}</Text>
                     </View>
                     <View inlineAlignment='center'>
@@ -67,7 +85,14 @@ export default function ListProduct({ data }) {
                             applyCartLineChange({
                               type: 'addCartLine',
                               quantity: 1,
-                              merchandiseId: product?.node?.variants?.nodes?.at(0)?.id
+                              merchandiseId: product?.node?.variants?.nodes?.at(0)?.id,
+                              attributes: [
+                                { key: '__nvd-position', value: extensionPoint },
+                                { key: '__nvd-location', value: 'Checkout Page' },
+                                { key: '__nvd-feed-id', value: JSON.stringify(ids) },
+                                { key: '__nvd-wdg-id', value: data?.widgets?.at(0)?.id?.toString() },
+                                { key: '__nvd-sg-id', value: JSON.stringify([...new Set(includedTrueIds)]) }
+                              ]
                             })
                           } finally {
                             oldLoading[product?.node?.variants?.nodes?.at(0)?.id] = false

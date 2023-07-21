@@ -139,7 +139,14 @@ export default function Carousel({ data, includedTrue, productOnScreen }) {
                       skeleton || !product?.node?.variants?.nodes?.at(0)?.price ?
                         <SkeletonText />
                         :
-                        <Text appearance='subdued' size='small'>{i18n.formatCurrency(product?.node?.variants?.nodes?.at(0)?.price)}</Text>
+                        <>
+                          {
+                            product?.node?.variants?.nodes?.at(0)?.compareAtPrice ? <TextBlock>
+                              <Text accessibilityRole='deletion' appearance='subdued' size='small'>{i18n.formatCurrency(product?.node?.variants?.nodes?.at(0)?.compareAtPrice)}</Text>
+                            </TextBlock> : null
+                          }
+                          <Text appearance='subdued' size='small'>{i18n.formatCurrency(product?.node?.variants?.nodes?.at(0)?.price)}</Text>
+                        </>
                     }
                   </TextBlock>
                   <InlineStack inlineAlignment='center'>
