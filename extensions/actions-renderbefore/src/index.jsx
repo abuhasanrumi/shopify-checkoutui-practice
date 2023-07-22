@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useExtensionApi, render, InlineStack, useCartLines, Spinner, useEmail, usePhone, ChoiceList, BlockLayout, Text, Choice, InlineLayout, TextBlock, Select, InlineSpacer, View } from '@shopify/checkout-ui-extensions-react';
+import { useExtensionApi, render, InlineStack, useCartLines, Spinner, useEmail, usePhone, ChoiceList, BlockLayout, Text, Choice, InlineLayout, TextBlock, Select, InlineSpacer, View, useExtensionEditor } from '@shopify/checkout-ui-extensions-react';
 import Carousel from '../../components/Carousel.jsx';
 import SMS from '../../components/SMS.jsx';
 import FAQ from '../../components/FAQ.jsx';
@@ -31,8 +31,10 @@ function App() {
   const [data, setData] = useState({})
   const [display, setDisplay] = useState(false)
   const includedTrue = useRef([])
+  const extensionEditor = useExtensionEditor()
 
   useEffect(() => {
+    if (extensionEditor?.type === 'checkout') return setDisplay(true)
     if (Object.keys(data).length) segmentCondition(setDisplay, data, { lines, presentmentLines, extensionPoint, includedTrue })
   }, [lines, data, presentmentLines.current, email])
 
@@ -52,7 +54,7 @@ function App() {
                           &products=${products}
                           &widget-position=${extensionPoint}
                           &user-phone=${phone}`
-      const res = await fetch(fetchURL.replace(/\s/g, ''))
+      const res = await fetch(fetchURL.replace(/\s/g, new String()))
       const resData = await res.json()
       if (resData.status === 200) {
         const oldResData = structuredClone(resData)

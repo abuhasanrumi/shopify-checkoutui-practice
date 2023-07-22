@@ -1,5 +1,5 @@
 type = "checkout_ui_extension"
-name = "Checkout::Actions::RenderBefore"
+name = "Before Action Button"
 
 extension_points = [
   'Checkout::Actions::RenderBefore'
