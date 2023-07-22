@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { useExtensionApi, render, InlineStack, useCartLines, Spinner, useEmail, usePhone } from '@shopify/checkout-ui-extensions-react';
-import Carousel from './components/Carousel.jsx';
 import Carousel from '../../components/Carousel.jsx';
 import SMS from '../../components/SMS.jsx';
 import FAQ from '../../components/FAQ.jsx';
