@@ -4,7 +4,7 @@ import { useExtensionApi, BlockStack, Heading, Button, Icon, Grid, InlineStack, 
 export default function Carousel({ data, includedTrue, productOnScreen }) {
   const fixedTime = JSON.parse(data?.widgets?.at(0)?.widget_customization)?.time
   const includedTrueIds = []
-  const { i18n, applyCartLinesChange, extensionPoint, applyDiscountCodeChange } = useExtensionApi()
+  const { i18n, applyCartLinesChange, extensionPoint } = useExtensionApi()
   includedTrue?.current?.filter(i => i.position === extensionPoint)?.forEach(i => includedTrueIds.push(i.id))
 
   const [products, setProducts] = useState(() => {
@@ -182,10 +182,6 @@ export default function Carousel({ data, includedTrue, productOnScreen }) {
                                 newLoading[product?.node?.variants?.nodes?.at(0)?.id] = false
                                 setLoading(newLoading)
                                 setIsBuying(false)
-                                applyDiscountCodeChange({
-                                  type: 'addDiscountCode',
-                                  code: 'test99'
-                                }).then(res => console.log(res))
                               })
                           }}
                         >{JSON.parse(data?.widgets?.at(0)?.widget_customization)?.cta || 'Add to cart'}</Button>
