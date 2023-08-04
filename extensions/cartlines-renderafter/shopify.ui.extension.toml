@@ -1,5 +1,5 @@
 type = "checkout_ui_extension"
-name = "Checkout::CartLines::RenderAfter"
+name = "Below Cart Lines"
 
 extension_points = [
   'Checkout::CartLines::RenderAfter'

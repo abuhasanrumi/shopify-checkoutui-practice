@@ -1,3 +1,12 @@
 # This file stores configurations for your Shopify app.
+client_id = "76cbd3db72a6c05f0df30a6a13640c3e"
 
-scopes = "write_products, write_discounts"
+scopes = "read_customers,write_customers,read_content,write_content,read_themes,write_themes,read_orders,write_orders,read_draft_orders,write_draft_orders,read_products,write_products,read_shipping,write_publications,write_discounts,read_discounts,read_script_tags,write_script_tags,read_order_edits,write_order_edits"
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "navidium-dev-2.myshopify.com"
+
+[pos]
+embedded = false
+

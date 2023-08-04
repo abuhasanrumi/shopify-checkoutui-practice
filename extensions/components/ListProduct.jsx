@@ -2,6 +2,7 @@ import { BlockLayout, Heading, Grid, Text, Image, View, Button, TextBlock, useEx
 import { useEffect, useState } from "react";
 
 export default function ListProduct({ data, includedTrue }) {
+  const cta = JSON.parse(data?.widgets?.at(0)?.widget_customization)?.listCta
   const fixedTime = JSON.parse(data?.widgets?.at(0)?.widget_customization)?.time
   const { i18n, extensionPoint } = useExtensionApi()
   const applyCartLineChange = useApplyCartLinesChange()
@@ -40,7 +41,7 @@ export default function ListProduct({ data, includedTrue }) {
   const includedTrueIds = []
   includedTrue?.current?.filter(i => i.position === extensionPoint)?.forEach(i => includedTrueIds.push(i.id))
 
-  if (time <= 0) return <></>
+  if (time <= 0 || !products.length) return <></>
   else return (
     <ScrollView hint={{ type: 'pill', content: 'Scroll to view' }} maxBlockSize={500}>
       <BlockLayout>
@@ -52,12 +53,12 @@ export default function ListProduct({ data, includedTrue }) {
           </View>
           <Grid spacing='base'>
             {
-              products.map(product => {
+              products.map((product, index) => {
                 const ids = []
                 feedsWithId.filter(feed => product?.node?.variants?.nodes?.at(0)?.id === feed.variantId)?.forEach(id => ids.push(id.feedId))
 
                 return (
-                  <Grid border='base' borderWidth='base' borderRadius='base' key={product?.node?.id + 'NavidiumListProduct'} blockAlignment='center' columns={['30%', 'fill', '30%']}>
+                  <Grid border='base' borderWidth='base' borderRadius='base' key={product?.node?.id + 'NavidiumListProduct' + index} blockAlignment='center' columns={['30%', 'fill', '30%']}>
                     <View padding='base'>
                       <Image aspectRatio={1.5} fit='contain' source={product?.node?.featuredImage?.url} />
                     </View>
@@ -82,7 +83,7 @@ export default function ListProduct({ data, includedTrue }) {
                           setLoading(oldLoading)
 
                           try {
-                            applyCartLineChange({
+                            await applyCartLineChange({
                               type: 'addCartLine',
                               quantity: 1,
                               merchandiseId: product?.node?.variants?.nodes?.at(0)?.id,
@@ -97,9 +98,13 @@ export default function ListProduct({ data, includedTrue }) {
                           } finally {
                             oldLoading[product?.node?.variants?.nodes?.at(0)?.id] = false
                             setLoading(oldLoading)
+                            const oldProducts = structuredClone(products)
+                            setProducts(oldProducts.filter(arrayProduct => arrayProduct?.node?.id !== product?.node?.id))
                           }
                         }}
-                      >Add to cart</Button>
+                      >
+                        {cta || 'Add to cart'}
+                      </Button>
                     </View>
                   </Grid>
                 )

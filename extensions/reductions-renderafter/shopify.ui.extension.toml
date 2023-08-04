@@ -1,5 +1,5 @@
 type = "checkout_ui_extension"
-name = "Checkout::Reductions::RenderAfter"
+name = "After Discount Box"
 
 extension_points = [
   'Checkout::Reductions::RenderAfter'

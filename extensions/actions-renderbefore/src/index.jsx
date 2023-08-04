@@ -76,37 +76,37 @@ function App() {
     if (display && templateId === 1) {
       return <Carousel data={data} includedTrue={includedTrue} productOnScreen={3} />
     } else if (display && templateId === 2) {
-      return <FAQ data={data} />
+      return <FAQ includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 3) {
-      return <Quote data={data} />
+      return <Quote includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 4) {
-      return <SMS data={data} />
+      return <SMS includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 5) {
-      return <Payment data={data} />
+      return <Payment includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 6) {
-      return <Review data={data} />
+      return <Review includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 7) {
-      return <Banner data={data} />
+      return <Banner includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 8) {
       return <ListProduct includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 9) {
       return <SingleProduct includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 10) {
-      return <Gift data={data} />
+      return <Gift includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 11) {
-      return <Coupon data={data} />
+      return <Coupon includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 12) {
-      return <BNPL data={data} />
+      return <BNPL includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 13) {
-      return <Features data={data} />
+      return <Features includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 14) {
-      return <Timer data={data} />
+      return <Timer includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 15) {
-      return <FreeGift data={data} />
+      return <FreeGift includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 16) {
-      return <BNPLPayment data={data} />
+      return <BNPLPayment includedTrue={includedTrue} data={data} />
     } else if (display && templateId === 17) {
-      return <STS data={data} />
+      return <STS includedTrue={includedTrue} data={data} />
     } else {
       return <></>
     }

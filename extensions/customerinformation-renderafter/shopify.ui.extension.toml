@@ -1,5 +1,5 @@
 type = "checkout_ui_extension"
-name = "Checkout::CustomerInformation::RenderAfter"
+name = "Below Customer Information"
 
 extension_points = [
   'Checkout::CustomerInformation::RenderAfter'

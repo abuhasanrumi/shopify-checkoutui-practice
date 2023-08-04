@@ -1,5 +1,5 @@
 type = "checkout_ui_extension"
-name = "Checkout::Contact::RenderAfter"
+name = "Below Contact Information"
 
 extension_points = [
   'Checkout::Contact::RenderAfter'

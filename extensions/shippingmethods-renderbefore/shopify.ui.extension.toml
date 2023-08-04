@@ -1,5 +1,5 @@
 type = "checkout_ui_extension"
-name = "Checkout::ShippingMethods::RenderBefore"
+name = "Above Shipping Methods"
 
 extension_points = [
   'Checkout::ShippingMethods::RenderBefore'

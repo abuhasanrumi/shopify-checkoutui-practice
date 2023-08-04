@@ -1,4 +1,5 @@
-type="backend"
+roles = ["backend"]
 
 [commands]
-dev = "npm run dev"
+dev = "composer serve"
+build = "composer build"

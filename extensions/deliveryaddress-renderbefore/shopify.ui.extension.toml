@@ -1,5 +1,5 @@
 type = "checkout_ui_extension"
-name = "Checkout::DeliveryAddress::RenderBefore"
+name = "Above Delivery Address"
 
 extension_points = [
   'Checkout::DeliveryAddress::RenderBefore'

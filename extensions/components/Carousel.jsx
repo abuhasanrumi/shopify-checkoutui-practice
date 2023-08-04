@@ -174,7 +174,8 @@ export default function Carousel({ data, includedTrue, productOnScreen }) {
                                 { key: '__nvd-location', value: 'Checkout Page' },
                                 { key: '__nvd-feed-id', value: JSON.stringify(ids) },
                                 { key: '__nvd-wdg-id', value: data?.widgets?.at(0)?.id?.toString() },
-                                { key: '__nvd-sg-id', value: JSON.stringify([...new Set(includedTrueIds)]) }
+                                { key: '__nvd-sg-id', value: JSON.stringify([...new Set(includedTrueIds)]) },
+                                { key: '__nvd-widget-names', value: JSON.stringify(['Carousel']) }
                               ]
                             })
                               .finally(() => {
