@@ -15,9 +15,7 @@ import {
   useTranslate,
   useApplyCartLinesChange
 } from '@shopify/checkout-ui-extensions-react'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import { Loading } from '@shopify/app-bridge-react'
+import { useState, useEffect } from 'react'
 
 render('Checkout::Dynamic::Render', () => <App />)
 
@@ -27,11 +25,10 @@ function App() {
   const applyCartLinesChange = useApplyCartLinesChange()
   const cartLines = useCartLines()
 
-  function removeItemFromCartLines(variantId) {
-    console.log('cartLines', cartLines)
+  function getCartLineItemId(variantId) {
     let itemId = ''
     cartLines.forEach((item) => {
-      if (item.merchandise.id == variantId) {
+      if (item.merchandise.id === variantId) {
         itemId = item.id
       }
     })
@@ -39,139 +36,137 @@ function App() {
     return itemId
   }
 
-  console.log(
-    'return',
-    removeItemFromCartLines('gid://shopify/ProductVariant/44807031652628')
-  )
+  const [loading, setLoading] = useState(false)
+  const [products, setProducts] = useState([])
+  const [selectedVariants, setSelectedVariants] = useState({})
 
-  const [addLoading, setAddLoading] = useState(false)
-  const [removeLoading, setRemoveLoading] = useState(false)
-  const [products, setProducts] = useState('')
+  // Maintain loading states for each product separately
+  const [productLoadingStates, setProductLoadingStates] = useState({})
 
-  // useEffect(() => {
-  //   // Set the loading state to show some UI if you're waiting
-  //   setLoading(true)
-  //   // Use `query` api method to send graphql queries to the Storefront API
-  //   query(
-  //     `query ($first: Int!) {
-  //       products(first: $first) {
-  //         nodes {
-  //           id
-  //           title
-  //           images(first:1){
-  //             nodes {
-  //               url
-  //             }
-  //           }
-  //           variants(first: 1) {
-  //             nodes {
-  //               id
-  //               price {
-  //                 amount
-  //               }
-  //             }
-  //           }
-  //         }
-  //       }
-  //     }`,
-  //     {
-  //       variables: { first: 5 }
-  //     }
-  //   )
-  //     .then(({ data }) => {
-  //       // console.log(data)
-  //     })
-  //     .catch((error) => console.error(error))
-  //     .finally(() => setLoading(false))
-  // }, [])
+  useEffect(() => {
+    setLoading(true)
+    query(
+      `query ($first: Int!) {
+        products(first: $first) {
+          nodes {
+            id
+            title
+            images(first:1){
+              nodes {
+                url
+              }
+            }
+            variants(first: 10) {
+              nodes {
+                id
+                price {
+                  amount
+                }
+              }
+            }
+          }
+        }
+      }`,
+      {
+        variables: { first: 5 }
+      }
+    )
+      .then(({ data }) => {
+        setProducts(data.products.nodes)
+        const initialSelectedVariants = {}
+        data.products.nodes.forEach((product) => {
+          initialSelectedVariants[product.id] = product.variants.nodes[0].id
+        })
+        setSelectedVariants(initialSelectedVariants)
+      })
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false))
+  }, [])
+
+  // Function to set loading state for a specific product
+  function setProductLoading(productId, isLoading) {
+    setProductLoadingStates((prevState) => ({
+      ...prevState,
+      [productId]: isLoading
+    }))
+  }
 
   return (
-    <Grid
-      border='base'
-      padding='base'
-      columns={['40%', 'fill']}
-      rows={[300, 'auto']}
-      spacing='loose'>
-      <View>
-        <Image source='https://static.vecteezy.com/system/resources/previews/003/394/636/non_2x/flowerpot-with-ground-illustration-free-vector.jpg' />
-      </View>
-      <View>
-        <Heading>I am a Pot</Heading>
-        <BlockSpacer spacing='loose' />
-        <Text size='base'>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Obcaecati
-          placeat possimus voluptatum placeat maxime voluptas facilis.
-        </Text>
-        <BlockSpacer spacing='loose' />
-        <Select
-          label='Country'
-          value='2'
-          options={[
-            {
-              value: '1',
-              label: 'Australia'
-            },
-            {
-              value: '2',
-              label: 'Canada'
-            },
-            {
-              value: '3',
-              label: 'France'
-            },
-            {
-              value: '4',
-              label: 'Japan'
-            },
-            {
-              value: '5',
-              label: 'Nigeria'
-            },
-            {
-              value: '6',
-              label: 'United States'
-            }
-          ]}
-        />
-        <BlockSpacer spacing='loose' />
-        <Button
-          loading={addLoading}
-          onPress={async () => {
-            try {
-              setAddLoading(true)
+    <>
+      {products.length > 0 &&
+        products.map((product) => (
+          <View key={product.id}>
+            <Grid
+              border='base'
+              padding='base'
+              columns={['40%', 'fill']}
+              rows={['auto']}
+              spacing='loose'>
+              <View>
+                <Image source={product.images.nodes[0].url} />
+              </View>
+              <View>
+                <Heading>{product.title}</Heading>
+                <BlockSpacer spacing='loose' />
+                <Select
+                  label='Variants'
+                  value={selectedVariants[product.id]}
+                  onChange={(e) => {
+                    setSelectedVariants((prevSelectedVariants) => ({
+                      ...prevSelectedVariants,
+                      [product.id]: e
+                    }))
+                  }}
+                  options={product.variants.nodes.map(
+                    (variant, variantIndex) => ({
+                      value: variant.id,
+                      label: `Variant ${variantIndex + 1} - $${
+                        variant.price.amount
+                      }`
+                    })
+                  )}
+                />
 
-              await applyCartLinesChange({
-                type: 'addCartLine',
-                merchandiseId: 'gid://shopify/ProductVariant/44807031652628',
-                quantity: 1
-              })
-            } finally {
-              setAddLoading(false)
-            }
-          }}>
-          Buy now
-        </Button>
-        <Button
-          appearance='critical'
-          loading={removeLoading}
-          onPress={async () => {
-            try {
-              setRemoveLoading(true)
+                <BlockSpacer spacing='loose' />
+                <Button
+                  loading={productLoadingStates[product.id] || false}
+                  onPress={async () => {
+                    try {
+                      setProductLoading(product.id, true)
 
-              await applyCartLinesChange({
-                type: 'removeCartLine',
-                id: removeItemFromCartLines(
-                  'gid://shopify/ProductVariant/44807031652628'
-                ),
-                quantity: 1
-              })
-            } finally {
-              setRemoveLoading(false)
-            }
-          }}>
-          Remove
-        </Button>
-      </View>
-    </Grid>
+                      await applyCartLinesChange({
+                        type: 'addCartLine',
+                        merchandiseId: selectedVariants[product.id],
+                        quantity: 1
+                      })
+                    } finally {
+                      setProductLoading(product.id, false)
+                    }
+                  }}>
+                  Buy now
+                </Button>
+                <Button
+                  appearance='critical'
+                  loading={productLoadingStates[product.id] || false}
+                  onPress={async () => {
+                    try {
+                      setProductLoading(product.id, true)
+
+                      await applyCartLinesChange({
+                        type: 'removeCartLine',
+                        id: getCartLineItemId(selectedVariants[product.id]),
+                        quantity: 1
+                      })
+                    } finally {
+                      setProductLoading(product.id, false)
+                    }
+                  }}>
+                  Remove
+                </Button>
+              </View>
+            </Grid>
+          </View>
+        ))}
+    </>
   )
 }
