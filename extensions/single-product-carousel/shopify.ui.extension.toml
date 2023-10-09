@@ -1,15 +1,9 @@
 type = "checkout_ui_extension"
-name = "checkout-test"
+name = "singleProductCarousel"
 
 extension_points = [
   'Checkout::Dynamic::Render'
 ]
-
-
-[capabilities]
-api_access = true
-network_access = true
-block_progress = true
 
 # [[metafields]]
 # namespace = "my-namespace"
