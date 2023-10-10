@@ -4,6 +4,7 @@ import { useState } from 'react'
 import {
   useExtensionApi,
   useApplyCartLinesChange,
+  useCartLines,
   render,
   BlockLayout,
   BlockStack,
@@ -11,10 +12,12 @@ import {
   InlineSpacer,
   Button,
   Image,
+  SkeletonText,
   BlockSpacer,
   Text,
   Heading,
   Grid,
+  SkeletonImage,
   View
 } from '@shopify/checkout-ui-extensions-react'
 
@@ -24,11 +27,15 @@ function App() {
   const { extensionPoint } = useExtensionApi()
   const templateId = 33
   const [widgetData, setWidgetData] = useState('')
+  const [added, setAdded] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [btnLoading, setBtnLoading] = useState(false)
 
   const fetchUrl =
     'https://tom-iron-tracked-chambers.trycloudflare.com/api/dynamatic/checkout-info?shop=mehedi-test-store.myshopify.com&user-email=khmehedi.dev.llc@gmail.com&products=&widget-position=purchase.checkout.block.render&user-phone=undefined'
 
   useEffect(() => {
+    setLoading(true)
     fetch(fetchUrl)
       .then((response) => {
         if (!response.ok) {
@@ -38,40 +45,67 @@ function App() {
       })
       .then((data) => {
         data?.campaigns[0]?.widgets?.map((widget) => {
-          // console.log(widget)
           if (widget?.template == templateId) {
-            // console.log(widget)
             setWidgetData(widget)
           }
         })
+        setLoading(false)
       })
       .catch((error) => {
+        setLoading(false)
         console.error('Fetch error:', error)
       })
   }, [])
 
-  function getRandomItemFromArray(array) {
-    if (Array.isArray(array) && array.length > 0) {
-      const randomIndex = Math.floor(Math.random() * array.length)
-      return array[randomIndex]
-    } else {
-      return null
-    }
-  }
+  // function getRandomItemFromArray(array) {
+  //   if (Array.isArray(array) && array.length > 0) {
+  //     const randomIndex = Math.floor(Math.random() * array.length)
+  //     return array[randomIndex]
+  //   } else {
+  //     return null
+  //   }
+  // }
 
-  const productsArray =
-    widgetData?.products_in_widget?.products[0]?.product_variants
-  const randomlySelectedProduct = getRandomItemFromArray(productsArray)
-
-  console.log(randomlySelectedProduct)
+  const product =
+    widgetData?.products_in_widget?.products[0]?.product_variants[0]
 
   const applyCartLinesChange = useApplyCartLinesChange()
+  const cartLines = useCartLines()
+
+  function getGid(id) {
+    return `gid://shopify/ProductVariant/${id}`
+  }
+
+  function getCartLineItemId(variantId) {
+    const cartLine = cartLines?.find(
+      (item) => item?.merchandise.id === variantId
+    )
+    return cartLine?.id || ''
+  }
+
   const onClickAddToCart = async (product) => {
-    let result = await applyCartLinesChange({
+    setBtnLoading(true)
+    const merchandiseId = getGid(product.variant_id)
+    const result = await applyCartLinesChange({
       type: 'addCartLine',
-      merchandiseId: `gid://shopify/ProductVariant/${product.variant_id}`,
+      merchandiseId,
       quantity: 1
     })
+    setAdded(true)
+    setBtnLoading(false)
+  }
+
+  const onClickRemoveFromCart = async (product) => {
+    setBtnLoading(true)
+    const variantId = getGid(product?.variant_id)
+    const cartLineId = getCartLineItemId(variantId)
+    const result = await applyCartLinesChange({
+      type: 'removeCartLine',
+      id: getGid(cartLineId),
+      quantity: 1
+    })
+    setAdded(false)
+    setBtnLoading(false)
   }
 
   return (
@@ -83,9 +117,29 @@ function App() {
       spacing='large500'
       borderRadius='10px'>
       <View>
-        <Text size={'extraLarge'}>YOU MAY ALSO LIKE</Text>
+        <Text size={'extraLarge'}>You may also like</Text>
       </View>
-      {randomlySelectedProduct != null && (
+      {loading && (
+        <Grid
+          columns={['20%', 'fill', 'auto']}
+          rows={['auto']}
+          blockAlignment='center'
+          spacing='base'>
+          <View>
+            <SkeletonImage inlineSize={100} blockSize={100} />
+          </View>
+          <View>
+            <SkeletonImage inlineSize={150} blockSize={20} />
+            <BlockSpacer spacing='base' />
+            <SkeletonText />
+          </View>
+
+          <View>
+            <SkeletonImage inlineSize={100} blockSize={35} />
+          </View>
+        </Grid>
+      )}
+      {product != null && !loading && (
         <Grid
           columns={['30%', 'fill', 'auto']}
           rows={['auto']}
@@ -101,21 +155,31 @@ function App() {
           </View>
           <View>
             <Heading size={'large'} spacing='loose'>
-              {randomlySelectedProduct?.display_name}
+              {product?.display_name}
             </Heading>
             <BlockSpacer spacing='base' />
-            <Text size={'medium'}>
-              {`$${randomlySelectedProduct?.variant_price}`}
-            </Text>
+            <Text size={'medium'}>{`$${product?.variant_price}`}</Text>
           </View>
 
           <View>
-            <Button
-              onPress={() => {
-                onClickAddToCart(randomlySelectedProduct)
-              }}>
-              {widgetData?.property?.button_text}
-            </Button>
+            {added == false ? (
+              <Button
+                loading={btnLoading}
+                onPress={() => {
+                  onClickAddToCart(product)
+                }}>
+                {widgetData?.property?.button_text}
+              </Button>
+            ) : (
+              <Button
+                loading={btnLoading}
+                appearance='critical'
+                onPress={() => {
+                  onClickRemoveFromCart(product)
+                }}>
+                Remove
+              </Button>
+            )}
           </View>
         </Grid>
       )}
