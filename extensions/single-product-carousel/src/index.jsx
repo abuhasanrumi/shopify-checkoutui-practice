@@ -1,25 +1,19 @@
-import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
 import {
-  useExtensionApi,
-  useApplyCartLinesChange,
-  useCartLines,
-  render,
   BlockLayout,
-  BlockStack,
-  InlineLayout,
-  InlineSpacer,
-  Button,
-  Image,
-  SkeletonText,
   BlockSpacer,
-  Text,
+  Button,
   Heading,
   Grid,
-  SkeletonImage,
-  View
+  Image,
+  Text,
+  View,
+  render,
+  useApplyCartLinesChange,
+  useCartLines,
+  useExtensionApi
 } from '@shopify/checkout-ui-extensions-react'
+import React, { useEffect, useState } from 'react'
+import ProductSkeleton from './utils/productSkeleton'
 
 render('Checkout::Dynamic::Render', () => <App />)
 
@@ -30,6 +24,8 @@ function App() {
   const [added, setAdded] = useState(false)
   const [loading, setLoading] = useState(false)
   const [btnLoading, setBtnLoading] = useState(false)
+  // const currencyCode = useCurrency()
+  // console.log(currencyCode)
 
   const fetchUrl =
     'https://tom-iron-tracked-chambers.trycloudflare.com/api/dynamatic/checkout-info?shop=mehedi-test-store.myshopify.com&user-email=khmehedi.dev.llc@gmail.com&products=&widget-position=purchase.checkout.block.render&user-phone=undefined'
@@ -119,26 +115,7 @@ function App() {
       <View>
         <Text size={'extraLarge'}>You may also like</Text>
       </View>
-      {loading && (
-        <Grid
-          columns={['20%', 'fill', 'auto']}
-          rows={['auto']}
-          blockAlignment='center'
-          spacing='base'>
-          <View>
-            <SkeletonImage inlineSize={100} blockSize={100} />
-          </View>
-          <View>
-            <SkeletonImage inlineSize={150} blockSize={20} />
-            <BlockSpacer spacing='base' />
-            <SkeletonText />
-          </View>
-
-          <View>
-            <SkeletonImage inlineSize={100} blockSize={35} />
-          </View>
-        </Grid>
-      )}
+      {loading && <ProductSkeleton />}
       {product != null && !loading && (
         <Grid
           columns={['30%', 'fill', 'auto']}
