@@ -4,8 +4,12 @@ import {
   Button,
   Heading,
   Grid,
+  SkeletonImage,
+  SkeletonText,
   Image,
   Text,
+  Select,
+  Icon,
   View,
   render,
   useApplyCartLinesChange,
@@ -13,19 +17,20 @@ import {
   useExtensionApi
 } from '@shopify/checkout-ui-extensions-react'
 import React, { useEffect, useState } from 'react'
-import ProductSkeleton from './utils/productSkeleton'
+// import ProductSkeleton from './utils/productSkeleton'
 
 render('Checkout::Dynamic::Render', () => <App />)
 
 function App() {
   const { extensionPoint } = useExtensionApi()
-  const templateId = 33
+  const templateId = 31
   const [widgetData, setWidgetData] = useState('')
   const [added, setAdded] = useState(false)
   const [loading, setLoading] = useState(false)
   const [btnLoading, setBtnLoading] = useState(false)
-  // const currencyCode = useCurrency()
-  // console.log(currencyCode)
+  const [products, setProducts] = useState(false)
+  const applyCartLinesChange = useApplyCartLinesChange()
+  const cartLines = useCartLines()
 
   const fetchUrl =
     'https://tom-iron-tracked-chambers.trycloudflare.com/api/dynamatic/checkout-info?shop=mehedi-test-store.myshopify.com&user-email=khmehedi.dev.llc@gmail.com&products=&widget-position=purchase.checkout.block.render&user-phone=undefined'
@@ -43,6 +48,7 @@ function App() {
         data?.campaigns[0]?.widgets?.map((widget) => {
           if (widget?.template == templateId) {
             setWidgetData(widget)
+            setProducts(widget?.products_in_widget?.products)
           }
         })
         setLoading(false)
@@ -52,21 +58,6 @@ function App() {
         console.error('Fetch error:', error)
       })
   }, [])
-
-  // function getRandomItemFromArray(array) {
-  //   if (Array.isArray(array) && array.length > 0) {
-  //     const randomIndex = Math.floor(Math.random() * array.length)
-  //     return array[randomIndex]
-  //   } else {
-  //     return null
-  //   }
-  // }
-
-  const product =
-    widgetData?.products_in_widget?.products[0]?.product_variants[0]
-
-  const applyCartLinesChange = useApplyCartLinesChange()
-  const cartLines = useCartLines()
 
   function getGid(id) {
     return `gid://shopify/ProductVariant/${id}`
@@ -104,38 +95,117 @@ function App() {
     setBtnLoading(false)
   }
 
+  const [currentProductIndex, setCurrentProductIndex] = useState(0)
+
+  // Function to handle clicking the right arrow button
+  const handleNextProduct = () => {
+    if (products?.length > 0) {
+      const nextIndex = (currentProductIndex + 1) % products.length
+      setCurrentProductIndex(nextIndex)
+    }
+  }
+
+  // Function to handle clicking the left arrow button
+  const handlePrevProduct = () => {
+    if (products?.length > 0) {
+      const prevIndex =
+        currentProductIndex === 0
+          ? products.length - 1
+          : currentProductIndex - 1
+      setCurrentProductIndex(prevIndex)
+    }
+  }
+
+  const currentDisplayedProduct = products[currentProductIndex]
+
   return (
     <BlockLayout
-      rows={[20, 'fill']}
+      rows={['auto', 'fill']}
       border='base'
       cornerRadius='base'
       padding='base'
-      spacing='large500'
+      spacing='large200'
       borderRadius='10px'>
       <View>
         <Text size={'extraLarge'}>You may also like</Text>
       </View>
-      {loading && <ProductSkeleton />}
-      {product != null && !loading && (
+      {loading && (
         <Grid
-          columns={['30%', 'fill', 'auto']}
+          columns={['5%', '20%', 'fill', 'auto', '5%']}
           rows={['auto']}
           blockAlignment='center'
           spacing='base'>
+          <SkeletonImage inlineSize={10} blockSize={20} />
+          <SkeletonImage inlineSize={100} blockSize={100} />
+          <View>
+            <SkeletonImage inlineSize={150} blockSize={20} />
+            <BlockSpacer spacing='base' />
+            <SkeletonText />
+          </View>
+          <SkeletonImage inlineSize={100} blockSize={35} />
+          <SkeletonImage inlineSize={10} blockSize={20} />
+        </Grid>
+      )}
+      {currentDisplayedProduct != null && !loading && (
+        <Grid
+          columns={['5%', '20%', 'fill', 'auto', '5%']}
+          rows={['auto', 'auto']}
+          blockAlignment='center'
+          spacing='base'>
+          <Button appearance='accent' onPress={() => handlePrevProduct()}>
+            <Icon appearance='interactive' source='chevronLeft' />
+          </Button>
           <View>
             <Image
               cornerRadius='base'
-              source={
-                widgetData?.products_in_widget?.products[0]?.product_image
-              }
+              source={currentDisplayedProduct?.product_image}
             />
           </View>
           <View>
             <Heading size={'large'} spacing='loose'>
-              {product?.display_name}
+              {currentDisplayedProduct?.product_title}
             </Heading>
             <BlockSpacer spacing='base' />
-            <Text size={'medium'}>{`$${product?.variant_price}`}</Text>
+            <View>
+              {console.log(currentDisplayedProduct?.product_variants)}
+              {currentDisplayedProduct?.product_variants?.length == 1 ? (
+                <Text
+                  size={
+                    'medium'
+                  }>{`$${currentDisplayedProduct?.product_variants[0]?.variant_price}`}</Text>
+              ) : (
+                <Select
+                  label='Country'
+                  value='1'
+                  options={[
+                    {
+                      value: '1',
+                      label: 'Australia'
+                    },
+                    {
+                      value: '2',
+                      label: 'Canada'
+                    },
+                    {
+                      value: '3',
+                      label: 'France'
+                    },
+                    {
+                      value: '4',
+                      label: 'Japan'
+                    },
+                    {
+                      value: '5',
+                      label: 'Nigeria'
+                    },
+                    {
+                      value: '6',
+                      label: 'United States'
+                    }
+                  ]}
+                />
+              )}
+            </View>
           </View>
 
           <View>
@@ -143,7 +213,7 @@ function App() {
               <Button
                 loading={btnLoading}
                 onPress={() => {
-                  onClickAddToCart(product)
+                  onClickAddToCart(currentDisplayedProduct)
                 }}>
                 {widgetData?.property?.button_text}
               </Button>
@@ -152,12 +222,15 @@ function App() {
                 loading={btnLoading}
                 appearance='critical'
                 onPress={() => {
-                  onClickRemoveFromCart(product)
+                  onClickRemoveFromCart(currentDisplayedProduct)
                 }}>
                 Remove
               </Button>
             )}
           </View>
+          <Button appearance='accent' onPress={() => handleNextProduct()}>
+            <Icon appearance='interactive' source='chevronRight' />
+          </Button>
         </Grid>
       )}
     </BlockLayout>
