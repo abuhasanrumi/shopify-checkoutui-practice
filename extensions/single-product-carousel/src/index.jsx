@@ -118,6 +118,13 @@ function App() {
 
   const currentDisplayedProduct = products[currentProductIndex]
 
+  const options = currentDisplayedProduct?.product_variants.map(
+    (variant, index) => ({
+      value: `variant-${index}`,
+      label: `$${variant.variant_price}`
+    })
+  )
+
   return (
     <BlockLayout
       rows={['auto', 'fill']}
@@ -175,34 +182,9 @@ function App() {
                   }>{`$${currentDisplayedProduct?.product_variants[0]?.variant_price}`}</Text>
               ) : (
                 <Select
-                  label='Country'
-                  value='1'
-                  options={[
-                    {
-                      value: '1',
-                      label: 'Australia'
-                    },
-                    {
-                      value: '2',
-                      label: 'Canada'
-                    },
-                    {
-                      value: '3',
-                      label: 'France'
-                    },
-                    {
-                      value: '4',
-                      label: 'Japan'
-                    },
-                    {
-                      value: '5',
-                      label: 'Nigeria'
-                    },
-                    {
-                      value: '6',
-                      label: 'United States'
-                    }
-                  ]}
+                  label='Variants'
+                  value={options[0].value}
+                  options={options}
                 />
               )}
             </View>
