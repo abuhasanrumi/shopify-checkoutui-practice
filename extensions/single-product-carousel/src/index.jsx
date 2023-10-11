@@ -17,9 +17,8 @@ import {
   useExtensionApi
 } from '@shopify/checkout-ui-extensions-react'
 import React, { useEffect, useState } from 'react'
-// import ProductSkeleton from './utils/productSkeleton'
 
-render('Checkout::Dynamic::Render', () => <App />)
+render('purchase.checkout.contact.render-after', () => <App />)
 
 function App() {
   const { extensionPoint } = useExtensionApi()

@@ -1,15 +1,9 @@
 type = "checkout_ui_extension"
-name = "singleProductCarousel"
+name = "removeBtn"
 
 extension_points = [
-  'purchase.checkout.contact.render-after'
+  'purchase.checkout.cart-line-item.render-after'
 ]
-
-[capabilities]
-network_access = true
-api_access = true
-block_progress = true
-
 
 # [[metafields]]
 # namespace = "my-namespace"
